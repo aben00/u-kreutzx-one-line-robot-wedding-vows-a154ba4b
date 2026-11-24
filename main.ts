@@ -8,6 +8,9 @@ const path = require("node:path");
 const ENTRY =
   "I do — and I promise to keep doing, through every reboot, every patch, and every time you call me by your ex's serial number.";
 
+// The competition gate: one line, 1 to 160 characters (code points).
+const MAX_CHARS = 160;
+
 const OUTPUT_PATH = process.env.OUTPUT_PATH || "/output/entry.txt";
 
 function selfCheck(text) {
@@ -15,8 +18,8 @@ function selfCheck(text) {
   // Count code points, not UTF-16 units, so the 160-character gate holds
   // for any Unicode the line might carry.
   const chars = Array.from(text);
-  if (chars.length < 1 || chars.length > 160) {
-    throw new Error(`entry is ${chars.length} characters, must be 1-160`);
+  if (chars.length < 1 || chars.length > MAX_CHARS) {
+    throw new Error(`entry is ${chars.length} characters, must be 1-${MAX_CHARS}`);
   }
   if (text.trim().length === 0) throw new Error("entry is only whitespace");
   if (text !== text.trim()) {
