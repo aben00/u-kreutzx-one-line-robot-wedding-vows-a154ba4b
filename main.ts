@@ -41,7 +41,7 @@ function main() {
   selfCheck(ENTRY);
   const dir = path.dirname(OUTPUT_PATH);
   fs.mkdirSync(dir, { recursive: true });
-  // Write exactly the line, no trailing newline, so the file holds
+  // Write exactly the line, with no trailing newline, so the file holds
   // byte-for-byte the single vow and nothing else.
   fs.writeFileSync(OUTPUT_PATH, ENTRY, "utf8");
   const back = fs.readFileSync(OUTPUT_PATH, "utf8");
@@ -52,7 +52,8 @@ function main() {
     throw new Error("read-back byte length mismatch");
   }
   selfCheck(back);
-  console.log(`Wrote ${OUTPUT_PATH} (${ENTRY.length} chars):`);
+  // Log the code-point count, matching the gate, not the UTF-16 length.
+  console.log(`Wrote ${OUTPUT_PATH} (${Array.from(ENTRY).length} chars):`);
   console.log(back);
 }
 
